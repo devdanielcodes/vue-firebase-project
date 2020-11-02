@@ -1,4 +1,4 @@
-# vue-firstore-project
+# Work-me
 
 ## Project setup
 ```
