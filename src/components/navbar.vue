@@ -1,7 +1,11 @@
 <template>
-    <div>
-        <h1>Navbar</h1>
-    </div>
+    <nav>
+        <div class="nav-wrapper green">
+            <div class="container">
+                <router-link class="brand-logo" to="/">Manger</router-link>
+            </div>
+        </div>
+    </nav>
 </template>
 
 <script>
