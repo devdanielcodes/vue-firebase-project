@@ -6,10 +6,9 @@
                 <h5>Employess</h5>
             </li>
             <li v-for="(employee, index) in employees" :key="index" class="collection-item">
-                {{employees.name}}
+                {{employee.name}} -  {{employee.em_id}}
             </li>
         </ul>
-        <h1>{{employees.name}}</h1>
         <div class="fixed-action-btn">
             <router-link to="/new" class="b btn-floating btn-larger red">
             +
@@ -30,15 +29,16 @@ import { reactive, toRefs } from 'vue'
 
 
             db.collection('employees').get().then(
-                getHeapSnapshot =>  getHeapSnapshot.forEach(doc => {
+                (snapshot) =>  snapshot.forEach(doc => {
                     const data = {
                         id: doc.id,
-                        employee_id: doc.data().employee_id,
-                        name: doc.data().name
-                    }
+                        name: doc.data().name,
+                        dept: doc.data().department,
+                        em_id: doc.data().employee_id,
 
-                    state.employees = data
-                    console.log(data)
+                    }
+                
+                    state.employees.push(data)
                 })
             )
 
