@@ -1,12 +1,15 @@
 <template>
     <div id="dash">
         <h1>Dassh</h1>
-        <ul>
-            <li v-for="item in employee" :key="item.employee_id">
-                {{item.name}}
+        <ul class="collection with-header">
+            <li class="collection-header">
+                <h5>Employess</h5>
+            </li>
+            <li v-for="(employee, index) in employees" :key="index" class="collection-item">
+                {{employees.name}}
             </li>
         </ul>
-        <h1>{{employee.name}}</h1>
+        <h1>{{employees.name}}</h1>
         <div class="fixed-action-btn">
             <router-link to="/new" class="b btn-floating btn-larger red">
             +
@@ -16,20 +19,26 @@
 </template>
 
 <script>
-import db from "@/firebase/firebase"
+import db from "../firebase/firebaseInit"
 import { reactive, toRefs } from 'vue'
     export default {
         setup(){
             const state = reactive({
-                employee: [],
+                employees: [],
                 neww: null
             })
 
 
             db.collection('employees').get().then(
-                employees =>  employees.forEach(response => {
-                    console.log(response.data)
-                    state.employee = response.data()
+                getHeapSnapshot =>  getHeapSnapshot.forEach(doc => {
+                    const data = {
+                        id: doc.id,
+                        employee_id: doc.data().employee_id,
+                        name: doc.data().name
+                    }
+
+                    state.employees = data
+                    console.log(data)
                 })
             )
 
