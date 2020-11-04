@@ -1,4 +1,4 @@
-# Work-me
+# VFire
 
 ## Project setup
 ```
