@@ -5,9 +5,14 @@
             <li class="collection-header">
                 <h5>Employess</h5>
             </li>
-            <li v-for="(employee, index) in employees" :key="index" class="collection-item">
-                {{employee.name}} -  {{employee.em_id}}
-            </li>
+            <router-link to="/profile/id">
+                <li v-for="(employee, index) in employees" :key="index" class="collection-item">
+                    {{employee.name}} -  {{employee.em_id}}
+                </li>
+            </router-link>
+            
+            <div class="collection-item" v-if="loading"><h5>loading..</h5></div>
+
         </ul>
         <div class="fixed-action-btn">
             <router-link to="/new" class="b btn-floating btn-larger red">
@@ -18,29 +23,31 @@
 </template>
 
 <script>
-import db from "../firebase/firebaseInit"
+import { db } from '@/firebase/firebaseInit'
 import { reactive, toRefs } from 'vue'
     export default {
         setup(){
             const state = reactive({
                 employees: [],
-                neww: null
+                neww: null,
+                loading: true
             })
 
-
             db.collection('employees').get().then(
-                (snapshot) =>  snapshot.forEach(doc => {
-                    const data = {
-                        id: doc.id,
-                        name: doc.data().name,
-                        dept: doc.data().department,
-                        em_id: doc.data().employee_id,
+                response => {
+                    response.forEach( data => {
+                        const doc = {
+                            id: data.id,
+                            name: data.data().name,
+                            em_id: data.data().employee_id
+                        }
 
-                    }
-                
-                    state.employees.push(data)
-                })
+                        state.employees.push(doc)
+                        state.loading = false
+                    })
+                }
             )
+
 
             return{
                 ...toRefs(state)
