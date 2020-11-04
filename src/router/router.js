@@ -5,7 +5,6 @@ import dash from "@/components/dashboard.vue"
 import view from "@/components/viewEmployee.vue"
 import newEm from "@/components/newEmployee.vue"
 import edit from "@/components/edit.vue"
-import Profile from "@/components/profile.vue"
 
 
 
@@ -17,7 +16,7 @@ export const router = createRouter({
             name: 'dash'
         },
         {
-            path: '/view',
+            path: '/view/:employee_id',
             component: view,
             name: 'view'
         },
@@ -30,11 +29,6 @@ export const router = createRouter({
             path: '/edit/:employee_id',
             component: edit,
             name: 'edit'
-        },
-        {
-            path: '/edit/:name',
-            component: Profile,
-            name: 'Profile'
         },
     ],
     history: createWebHistory()
